@@ -1,8 +1,15 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "target": "es5",
-  }
+    "moduleResolution": "node",
+    "outFile": "dist/types",
+    "target": "ESNext",
+    "types": ["vite/client", "vitest/globals"],
+  },
+  "exclude": ["./src/index.ts"]
 }
+

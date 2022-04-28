@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 import { useStateWithMutators } from "./use-state-with-mutators"
 
-type Direction = -1 | 0 | 1;
+type Direction = -1 | 0 | 1
 
 interface SequenceProps<T> {
   initialValue: T
@@ -36,31 +36,31 @@ export function useSequence<T = string>({ initialValue, items, loop }: SequenceP
   const [direction, setDirection] = useState<Direction>(0)
   const [index, setIndex] = useState<number>(items.findIndex(item => item === initialValue))
 
-  const goTo = (next) => {
+  const goTo = useCallback((next) => {
     const nextIndex = items.findIndex(item => item === next)
 
     if (index === nextIndex || nextIndex === -1) {
       return
     }
 
-    const nextDirection = nextIndex > index ? 1 : -1;
+    const nextDirection = nextIndex > index ? 1 : -1
 
     mutators.set(next)
     setDirection(nextDirection)
     setIndex(nextIndex)
-  }
+  }, [index, items, mutators.set])
 
   const next = useCallback(() => {
     if (!loop && index === items.length - 1) {
-      return;
+      return
     }
 
-    const nextValue = items[getNext(items, index)];
+    const nextValue = items[getNext(items, index)]
   
-    mutators.set(nextValue);
+    mutators.set(nextValue)
     setDirection(1)
     setIndex(current => getNext(items, current))
-  }, [items, loop])
+  }, [index, items, loop, mutators.set])
 
   const prev = useCallback(() => {
     if (!loop && index === 0) {
@@ -72,7 +72,7 @@ export function useSequence<T = string>({ initialValue, items, loop }: SequenceP
     mutators.set(nextValue)
     setDirection(-1)
     setIndex(current => getPrev(items, current))
-  }, [items])
+  }, [index, items, loop, mutators.set])
 
   return [{
     direction,

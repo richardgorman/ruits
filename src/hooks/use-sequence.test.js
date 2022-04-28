@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
+import { resourceLimits } from 'worker_threads';
 import { useSequence } from './use-sequence';
 
 const items = ['apple', 'banana', 'cherry'];
@@ -23,16 +24,14 @@ describe('use-sequence', () => {
       initialValue: 'apple',
       items,
     }));
-    const [, sequence] = result.current;
 
-    act(() => {
-      sequence.next();
-    });
+    result.current[1].next();
+    result.current[1].next();
 
     expect(result.current[0]).toEqual({
       direction: 1,
-      index: 1,
-      value: 'banana',
+      index: 2,
+      value: 'cherry',
     });
   });
 
@@ -75,14 +74,12 @@ describe('use-sequence', () => {
 
   test('should allow go prev', () => {
     const { result } = renderHook(() => useSequence({
-      initialValue: 'banana',
+      initialValue: 'cherry',
       items,
     }));
-    const [, sequence] = result.current;
 
-    act(() => {
-      sequence.prev();
-    });
+    result.current[1].prev();
+    result.current[1].prev();
 
     expect(result.current[0]).toEqual({
       direction: -1,

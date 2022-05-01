@@ -74,6 +74,10 @@ export function useSequence<T = string>({ initialValue, items, loop }: SequenceP
     setIndex(current => getPrev(items, current))
   }, [index, items, loop, mutators.set])
 
+  const reset = useCallback(() => {
+    goTo(initialValue);
+  }, [goTo, initialValue])
+
   return [{
     direction,
     index,
@@ -82,6 +86,6 @@ export function useSequence<T = string>({ initialValue, items, loop }: SequenceP
     goTo,
     next,
     prev,
-    reset: mutators.reset,
+    reset,
   }]
 }

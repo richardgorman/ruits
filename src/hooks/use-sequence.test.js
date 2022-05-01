@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
+import { test } from 'vitest';
 import { resourceLimits } from 'worker_threads';
 import { useSequence } from './use-sequence';
 
@@ -178,4 +179,21 @@ describe('use-sequence', () => {
       value: 'apple',
     });
   });
+
+  test('should correctly reset', () => {
+    const { result } = renderHook(() => useSequence({
+      initialValue: 'apple',
+      items,
+    }));
+
+    result.current[1].next();
+    result.current[1].next();
+    result.current[1].reset();
+
+    expect(result.current[0]).toEqual({
+      direction: -1,
+      index: 0,
+      value: 'apple',
+    });
+  })
 });

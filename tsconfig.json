@@ -4,6 +4,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "esModuleInterop": true,
+    "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
     "moduleResolution": "node",
     "outFile": "dist/types",

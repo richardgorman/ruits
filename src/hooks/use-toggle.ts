@@ -1,6 +1,6 @@
 import { useMemo, useState, Dispatch, SetStateAction } from 'react'
 
-type SwitchHook = [
+export type ToggleHook = [
   isToggled: boolean,
   mutators: {
     flip: () => void
@@ -10,7 +10,7 @@ type SwitchHook = [
   }
 ]
 
-export function useSwitch(initialState?: boolean): SwitchHook {
+export function useToggle(initialState?: boolean): ToggleHook {
   const [state, set] = useState(initialState ?? false)
   const mutators = useMemo(() => ({
     flip: () => set(current => !current),

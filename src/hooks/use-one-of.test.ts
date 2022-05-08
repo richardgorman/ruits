@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react-hooks';
 import { useOneOf } from './use-one-of';
 
 const items = ['apple', 'banana', 'cherry'];
@@ -37,9 +37,7 @@ describe('use-one-of', () => {
     }));
     const [, oneOf] = result.current;
 
-    act(() => {
-      oneOf.set('banana');
-    });
+    oneOf.set('banana');
 
     expect(result.current[0]).toBe('banana');
   });
@@ -53,10 +51,9 @@ describe('use-one-of', () => {
     });
     const [, oneOf] = result.current;
 
-    rerender({ items: items.concat('date')})
-    act(() => {
-      oneOf.set('date')
-    });
+    rerender({ initialValue: 'apple', items: items.concat('date')})
+
+    oneOf.set('date')
 
     expect(result.current[0]).toBe('date');
   });
@@ -69,7 +66,7 @@ describe('use-one-of', () => {
       }
     });
 
-    rerender({ items: ['date'] })
+    rerender({ initialValue: 'apple', items: ['date'] })
 
     expect(result.current[0]).toBe(undefined);
   });
@@ -81,9 +78,7 @@ describe('use-one-of', () => {
     }));
     const [, oneOf] = result.current;
 
-    act(() => {
-      oneOf.set('date');
-    });
+    oneOf.set('date');
 
     expect(result.current[0]).toBe('apple');
   });
@@ -95,10 +90,8 @@ describe('use-one-of', () => {
     }));
     const [, oneOf] = result.current;
 
-    act(() => {
-      oneOf.set('apple');
-      oneOf.reset();
-    });
+    oneOf.set('apple');
+    oneOf.reset();
 
     expect(result.current[0]).toBe('banana');
   });
@@ -110,9 +103,7 @@ describe('use-one-of', () => {
     }));
     const [, oneOf] = result.current;
 
-    act(() => {
-      oneOf.clear();
-    });
+    oneOf.clear();
 
     expect(result.current[0]).toBe(undefined);
   });

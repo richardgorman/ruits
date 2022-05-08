@@ -75,7 +75,7 @@ export function useSequence<T = string>({ initialValue, items, loop }: SequenceP
   }, [index, items, loop, mutators.set])
 
   const reset = useCallback(() => {
-    goTo(initialValue);
+    goTo(initialValue)
   }, [goTo, initialValue])
 
   return [{

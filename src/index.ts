@@ -1,4 +1,4 @@
-export * from './components/Toggle'
+export * from './components/ToggleProvider'
 
 export * from './hooks/use-many-of'
 export * from './hooks/use-one-of'

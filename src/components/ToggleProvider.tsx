@@ -7,7 +7,7 @@ interface ToggleProps {
   initialValue?: boolean
 }
 
-export function Toggle({ children, initialValue }: ToggleProps) {
+export function ToggleProvider({ children, initialValue }: ToggleProps) {
   const toggleHook = useToggle(initialValue)
 
   return (

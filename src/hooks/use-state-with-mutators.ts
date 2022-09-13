@@ -1,11 +1,11 @@
 import { useMemo, useRef, useState, Dispatch, SetStateAction } from "react"
 
-interface StateWithMutatorsProps<T> {
+export interface StateWithMutatorsProps<T> {
   defaultValue?: T,
   initialValue?: T,
 }
 
-type StateWithMutatorsHook<T> = [
+export type StateWithMutatorsHook<T> = [
   state: T,
   mutators: {
     clear: () => void;

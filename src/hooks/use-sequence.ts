@@ -3,13 +3,13 @@ import { useStateWithMutators } from "./use-state-with-mutators"
 
 type Direction = -1 | 0 | 1
 
-interface SequenceProps<T> {
+export interface SequenceProps<T> {
   initialValue: T
   items: T[]
   loop?: boolean
 }
 
-type SequenceHook<T> = [
+export type SequenceHook<T> = [
   state: {
     direction: Direction,
     index: number,

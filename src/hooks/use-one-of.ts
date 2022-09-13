@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { useStateWithMutators } from './use-state-with-mutators'
 
-interface OneOfProps<T> {
+export interface OneOfProps<T> {
   initialValue?: T
   items: T[]
 }
 
-type OneOfHook<T> = [
+export type OneOfHook<T> = [
   state: T,
   mutators: {
     clear: () => void

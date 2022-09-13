@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
 import { useStateWithMutators } from './use-state-with-mutators';
 
-interface ManyOfProps<T> {
+export interface ManyOfProps<T> {
   items: T[],
   initialValue?: T[],
 }
 
-type ManyOfHook<T> = [
+export type ManyOfHook<T> = [
   state: T[],
   mutators: {
     deselect: (item: T) => void

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import { ToggleContext } from 'context/ToggleContext'
-import { useToggle } from 'hooks/use-toggle'
+import { ToggleContext } from '../context/ToggleContext'
+import { useToggle } from '../hooks/use-toggle'
 
 interface ToggleProps {
   children: ReactNode

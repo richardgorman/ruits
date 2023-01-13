@@ -134,17 +134,36 @@ describe('use-many-of', () => {
   });
 
   test('should not allow to flip an unknown value', () => {
-    const { result } = renderHook(() => useManyOf({
-      initialValue: ['apple', 'banana'],
-      items,
-    }))
+    const { result } = renderHook(() =>
+      useManyOf({
+        initialValue: ['apple', 'banana'],
+        items,
+      })
+    )
     const [, manyOf] = result.current
 
     act(() => {
-      manyOf.flip('banana');
-      manyOf.flip('date');
+      manyOf.flip('banana')
+      manyOf.flip('date')
     })
 
     expect(result.current[0]).toEqual(['apple'])
-  });
+  })
+  test('should correctly call a listener', () => {
+    const listener = vi.fn()
+    const { result } = renderHook(() =>
+      useManyOf({
+        initialValue: ['apple', 'banana'],
+        items,
+        onChange: listener,
+      })
+    )
+
+    act(() => {
+      result.current[1].flip('banana')
+    })
+
+    expect(listener).toHaveBeenCalledTimes(1)
+    expect(listener).toHaveBeenCalledWith(['apple'])
+  })
 });

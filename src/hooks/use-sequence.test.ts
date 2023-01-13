@@ -196,4 +196,20 @@ describe('use-sequence', () => {
       value: 'apple',
     });
   })
+
+  test('should correctly call a listener', () => {
+    const listener = vi.fn()
+    const { result } = renderHook(() =>
+      useSequence({
+        initialValue: 'apple',
+        items,
+        onChange: listener,
+      })
+    )
+
+    result.current[1].next()
+
+    expect(listener).toHaveBeenCalledTimes(1)
+    expect(listener).toHaveBeenCalledWith('banana')
+  })
 });

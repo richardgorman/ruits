@@ -1,9 +1,13 @@
 import { useCallback } from 'react'
-import { useStateWithMutators } from './use-state-with-mutators';
+import {
+  useStateWithMutators,
+  StateWithMutatorsProps,
+} from './use-state-with-mutators'
 
 export interface ManyOfProps<T> {
-  items: T[],
-  initialValue?: T[],
+  initialValue?: T[]
+  items: T[]
+  onChange?: StateWithMutatorsProps<T[]>['onChange']
 }
 
 export type ManyOfHook<T> = [
@@ -18,37 +22,49 @@ export type ManyOfHook<T> = [
   }
 ]
 
-export function useManyOf<T = string>({ initialValue, items }: ManyOfProps<T>): ManyOfHook<T> {
+export function useManyOf<T = string>({
+  initialValue,
+  items,
+  onChange,
+}: ManyOfProps<T>): ManyOfHook<T> {
   const [state, mutators] = useStateWithMutators<T[]>({
     defaultValue: [],
-    initialValue: initialValue?.filter(value => items.includes(value))
+    initialValue: initialValue?.filter((value) => items.includes(value)),
+    onChange,
   })
 
-  const select = useCallback((item: T): boolean => {
-    if (state.includes(item) || !items.includes(item)) {
-      return false
-    }
+  const select = useCallback(
+    (item: T): boolean => {
+      if (state.includes(item) || !items.includes(item)) {
+        return false
+      }
 
-    mutators.set(current => current.concat(item))
-    return true
-  }, [state, items])
+      mutators.set((current) => current.concat(item))
+      return true
+    },
+    [state, items]
+  )
 
   const selectAll = useCallback(() => mutators.set(items), [items])
 
   const deselect = useCallback((itemToRemove) => {
-    mutators.set(current => current.filter(item => item !== itemToRemove))
+    mutators.set((current) => current.filter((item) => item !== itemToRemove))
   }, [])
 
-  const flip = useCallback((item: T) => (
-    select(item) || deselect(item)
-  ), [deselect, select])
+  const flip = useCallback(
+    (item: T) => select(item) || deselect(item),
+    [deselect, select]
+  )
 
-  return [state, {
-    deselect,
-    deselectAll: mutators.clear,
-    flip,
-    reset: mutators.reset,
-    select,
-    selectAll,
-  }]
+  return [
+    state,
+    {
+      deselect,
+      deselectAll: mutators.clear,
+      flip,
+      reset: mutators.reset,
+      select,
+      selectAll,
+    },
+  ]
 }

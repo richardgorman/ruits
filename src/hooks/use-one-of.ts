@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { useStateWithMutators } from './use-state-with-mutators'
+import {
+  StateWithMutatorsProps,
+  useStateWithMutators,
+} from './use-state-with-mutators'
 
 export interface OneOfProps<T> {
   initialValue?: T
   items: T[]
+  onChange?: StateWithMutatorsProps<T>['onChange']
 }
 
 export type OneOfHook<T> = [
@@ -15,10 +19,16 @@ export type OneOfHook<T> = [
   }
 ]
 
-export function useOneOf<T = string>({ initialValue, items }: OneOfProps<T>): OneOfHook<T> {
+export function useOneOf<T = string>({
+  initialValue,
+  items,
+  onChange,
+}: OneOfProps<T>): OneOfHook<T> {
   const [state, mutators] = useStateWithMutators<T>({
-    initialValue: items.find(item => item === initialValue)
+    initialValue: items.find((item) => item === initialValue),
+    onChange,
   })
+
   const itemsRef = useRef(items)
 
   const set = useCallback((next: T) => {
@@ -28,16 +38,19 @@ export function useOneOf<T = string>({ initialValue, items }: OneOfProps<T>): On
   }, [])
 
   useEffect(() => {
-    itemsRef.current = items;
+    itemsRef.current = items
 
     if (!items.includes(state)) {
       mutators.clear()
     }
   }, [items])
 
-  return [state, {
-    clear: mutators.clear,
-    reset: mutators.reset,
-    set,
-  }]
+  return [
+    state,
+    {
+      clear: mutators.clear,
+      reset: mutators.reset,
+      set,
+    },
+  ]
 }

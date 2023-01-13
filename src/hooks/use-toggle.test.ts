@@ -60,6 +60,20 @@ describe('use-toggle', () => {
     expect(result.current[0]).toBe(true);
   });
 
+  test('should correctly call a listener', () => {
+    const listener = vi.fn()
+    const { result } = renderHook(() => useToggle(false, listener))
+    const [, mutators] = result.current
+
+    act(() => {
+      mutators.set(true)
+    })
+
+    expect(result.current[0]).toBe(true)
+    expect(listener).toHaveBeenCalledTimes(1)
+    expect(listener).toHaveBeenCalledWith(true)
+  })
+
   test('should memoize the mutators', () => {
     const { rerender, result } = renderHook(() => useToggle());
     const [, mutators] = result.current;
